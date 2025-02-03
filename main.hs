@@ -140,3 +140,59 @@ substitute            x    y    (a:xs) | x == a   = y  : substitute x y xs
         
 -- x == x': This guard checks if the current element (x') is equal to the element to be substituted (x). If true, it replaces x' with y and recurses on the rest of the list (xs).
 -- otherwise: This is a catch-all case (equivalent to True in Haskell). If x' is not equal to x, the element x' remains unchanged, and the function recurses on the rest of the list.
+
+--5.3
+--1
+--part one
+main :: IO ()
+main = do
+  let result = addTime (3,11) (5,18)
+  print result
+
+type Time = (Int, Int)
+addTime :: Time -> Time -> Time
+addTime (minute1, second1) (minute2, second2) = 
+      (totalMinutes, remainingSeconds)
+      where
+        totalSeconds = second1 + second2
+        extraMinutes = totalSeconds `div` 60
+        remainingSeconds = totalSeconds `mod` 60
+        totalMinutes = minute1 + minute2 + extraMinutes
+
+-- part two
+main :: IO ()
+main = do
+  let result = sumTime [(3, 50), (5, 20), (2, 45), (4, 30)]
+  print result
+
+type Time = (Int, Int)
+type TimeList = [(Int, Int)]
+
+addTime :: Time -> Time -> Time
+addTime (minute1, second1) (minute2, second2) = 
+      (totalMinutes, remainingSeconds)
+      where
+        totalSeconds = second1 + second2
+        extraMinutes = totalSeconds `div` 60
+        remainingSeconds = totalSeconds `mod` 60
+        totalMinutes = minute1 + minute2 + extraMinutes
+        
+sumTime :: TimeList -> Time
+sumTime [] = (0, 0)
+sumTime (t:ts) = addTime t (sumTime ts)
+
+-- 5.4.1 A function addDashes that takes a list of strings and adds "comment dashes" on the front of each
+-- one. Use in your implementation a suitable mapping function supplied by Haskell (e.g. all, map,
+-- filter, etc.), operator sections and Currying to arrive at a very succinct solution.
+
+-- main :: IO ()
+-- main = do
+--   let result = addDashes ["a", "b", "c"]
+--   print result
+  
+addDashes :: [String] -> [String]
+addDashes [] = []  -- Base case to handle empty list
+addDashes (s:st) = addActualDashes s : addDashes st
+
+addActualDashes :: String -> String
+addActualDashes s = "--" ++ s  -- Use `++` for string concatenation
