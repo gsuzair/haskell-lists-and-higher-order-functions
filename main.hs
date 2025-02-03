@@ -298,6 +298,52 @@ swapPairs'' :: [(a, b)] -> [(b, a)]
 swapPairs'' [] = []  -- Base case for an empty list
 swapPairs'' lst = [(b,a) | (a,b) <- lst]
 
+-- 5.4.3 A function applyEach that takes a list of pairs each one of which has type (a -> b, a) and returns
+-- a list that contains the application of each function (first of the tuple) to the argument (second of
+-- the tuple). Use for this anonymous functions (lambdas). For example:
+-- applyEach [(superFibo, 3), (fact, 5), (double, 7)] ==> [2, 120, 14]
+-- applyEach [(sumFact, 4), (\x -> x * 3, 16)] ==> [34, 48]
+-- (Note that the function names in this example may be made up.)
+-- Solve this problem two times, once using the predefined Haskell function map, once using list
+-- comprehensions.
 
+--list comprehension
 
+main :: IO ()
+main = do
+  let result = applyEach [(superFibo, 3), (fact, 5), (double, 7)]
+  print result
+  
+applyEach :: [(a -> b, a)] -> [b]
+applyEach lst = [f x | (f, x) <- lst]
 
+superFibo :: Int -> Int
+superFibo 0 = 0
+superFibo 1 = 1
+superFibo n = superFibo (n - 1) + superFibo (n - 2)
+
+fact :: Int -> Int
+fact 0 = 1
+fact n = n * fact (n - 1)
+
+double :: Int -> Int
+double x = x * 2
+
+-- with map
+
+applyEach :: [(a -> b, a)] -> [b]
+applyEach =  map $ \(f,x) -> f x
+
+-- 5.4.4 A function theSame that takes a string and returns True if all of the characters of the string are
+-- the same. Use in your implementation a suitable mapping function supplied by Haskell (e.g. all,
+-- map, filter, etc.) and sections.
+-- In case of an empty string, return True as well.
+
+main :: IO ()
+main = do
+  let result = theSame "aaaa"
+  print result
+  
+theSame :: String -> Bool
+theSame [] = True  -- Return True for an empty string
+theSame (x:xs) = all (== x) xs  -- Check if all elements are the same as the first character
