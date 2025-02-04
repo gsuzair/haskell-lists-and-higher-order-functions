@@ -347,3 +347,19 @@ main = do
 theSame :: String -> Bool
 theSame [] = True  -- Return True for an empty string
 theSame (x:xs) = all (== x) xs  -- Check if all elements are the same as the first character
+
+
+-- 5.5.1 A higher-order function twice that takes a function (say f) of type a -> a and
+-- an input value of type a, and whose result is the function f applied to the input twice.
+-- Hint: Try and use the function composition operator, which is just a single dot.
+
+main :: IO ()
+main = do
+  let result = twice increment 1
+  print result
+  
+twice :: (a -> a) -> a -> a
+twice t = t . t 
+
+increment :: Int -> Int
+increment x = x + 1
