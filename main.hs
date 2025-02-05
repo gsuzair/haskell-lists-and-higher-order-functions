@@ -363,3 +363,16 @@ twice t = t . t
 
 increment :: Int -> Int
 increment x = x + 1
+
+-- 5.5.2Present a function maxfRec of type (Int -> Int) -> Int -> Int which on
+-- inputs f (a function of type Int -> Int) and n returns the maximum of the values f 0, f 1,
+-- ..., f n, or 0 in case n is negative.
+-- Hint: You may find the function max useful.
+
+main :: IO ()
+main = do
+  let result = maxfRec (*2) 4
+  print result
+  
+maxfRec :: (Int -> Int) -> Int -> Int
+maxfRec f n = foldr max 0 (map f [1..n])
