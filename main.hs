@@ -376,3 +376,18 @@ main = do
   
 maxfRec :: (Int -> Int) -> Int -> Int
 maxfRec f n = foldr max 0 (map f [1..n])
+
+-- 5.5.3  Present a function oneZero of type (Int -> Int) -> Int -> Bool which on
+-- inputs f and n returns True if one or more of the values f 0, f 1, ..., f n is zero and False
+-- otherwise.
+
+main :: IO ()
+main = do
+  let result = oneZero (*2) 0
+  print result
+  
+oneZero :: (Int -> Int) -> Int -> Bool
+oneZero f n 
+    | foldr max 0 (map f [1..n]) == 0 = True
+    | otherwise = False
+
