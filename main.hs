@@ -391,3 +391,37 @@ oneZero f n
     | foldr max 0 (map f [1..n]) == 0 = True
     | otherwise = False
 
+-- 5.5.4 A higher-order recursive function iter so that:
+-- iter n f x == f $ f $ f ...f x
+-- where f occurs n times on the right-hand side of the equation. (Keep in mind that $ opens a
+-- bracket and closes it as far right as possible.) For instance, we should have:
+-- iter 1 (3*) 6 ==> 3*6
+-- iter 2 (3*) 6 ==> 3*(3*6)
+-- iter 3 (3*) 6 ==> 3*(3*(3*6))
+-- For negative n, f should just return x unchanged. Additional exercise: Look up the function
+-- replicate on Hoogle, and now solve the problem in a single line, via folding.
+
+main :: IO ()
+main = do
+  let result = iter 3 (2*) 6
+  print result
+  
+iter :: Int -> (Int -> Int) -> Int -> Int
+iter n f x 
+    | n <= 0 = x
+    | otherwise = iter (n-1) f (f x) -- n > 0, so call iter (3-1) (2*) (2 * 6) and so on
+
+-- via folding
+
+main :: IO ()
+main = do
+  let result = iter 3 (2*) 6
+  print result
+  
+iter :: Int -> (Int -> Int) -> Int -> Int
+iter n f = foldr (.) id $ replicate n f
+
+-- 5.5.5 . Define your own functions myAny, myAll and mySum which behave exactly like the builtin functions
+-- any, all and sum, respectively.
+-- Solve this exercise two times, once recursively, once using foldr. Note that very, very many
+-- recursive functions on lists can be defined via folding.
