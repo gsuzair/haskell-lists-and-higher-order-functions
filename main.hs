@@ -467,3 +467,17 @@ mySum (x:xs) = x + mySum xs
 mySum' :: Num a => [a] -> a
 mySum' [] = 0 
 mySum' (x:xs) = foldr (+) x xs
+
+-- 5.5.6 A function myUnzip with the same functionality of unzip. Solve this by using
+-- foldr.
+
+main :: IO ()
+main = do
+  let result = myUnzip [(1, 'a'), (2, 'b'), (3, 'c')]
+  print result
+  
+myUnzip :: [(a, b)] -> ([a], [b])
+myUnzip = foldr (\(x, y) (xs, ys) -> (x:xs, y:ys)) ([], [])
+
+-- starts from the right, foldr f initial list, initial is ([], []), it start from the right
+-- it takes 3,c first and append it to xs and ys which are [], and then 2,b and so on
