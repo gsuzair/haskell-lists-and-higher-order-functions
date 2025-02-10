@@ -425,3 +425,45 @@ iter n f = foldr (.) id $ replicate n f
 -- any, all and sum, respectively.
 -- Solve this exercise two times, once recursively, once using foldr. Note that very, very many
 -- recursive functions on lists can be defined via folding.
+
+-- any (> 3) [1,2]
+-- False
+-- any (> 3) [1,2,3,4,5]
+-- True
+
+main :: IO ()
+main = do
+  let result = myAny (> 3) [1,2]
+  print result
+  
+myAny :: (a -> Bool) -> [a] -> Bool
+myAny _ [] = False
+myAny p (x:xs)
+        | p x = True
+        | otherwise = myAny p xs
+
+-- with folding
+myAny'    f           =  foldr (\a b -> f a || b) False
+
+-- all (> 3) []
+-- True
+-- all (> 3) [1,2]
+-- False
+
+myAll :: (a -> Bool) -> [a] -> Bool
+myAll _ [] = True  -- Base case: an empty list satisfies all predicates
+myAll p (x:xs)
+      | not (p x) = False -- If any element fails the condition, return False immediately
+      | otherwise = myAll p xs
+-- with folding
+myAll' p = foldl (\acc x -> acc && p x) True
+-- sum [4,5] = 9
+
+mySum :: Num a => [a] -> a
+mySum [] = 0 
+mySum (x:xs) = x + mySum xs
+ 
+ -- with folding
+mySum' :: Num a => [a] -> a
+mySum' [] = 0 
+mySum' (x:xs) = foldr (+) x xs
