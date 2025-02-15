@@ -481,3 +481,8 @@ myUnzip = foldr (\(x, y) (xs, ys) -> (x:xs, y:ys)) ([], [])
 
 -- starts from the right, foldr f initial list, initial is ([], []), it start from the right
 -- it takes 3,c first and append it to xs and ys which are [], and then 2,b and so on
+
+-- 5.5.7 A higher-order recursive function myMap :: (a -> b) -> [a] -> [b] that does exactly the same
+-- as map.
+
+
