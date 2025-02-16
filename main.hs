@@ -485,4 +485,26 @@ myUnzip = foldr (\(x, y) (xs, ys) -> (x:xs, y:ys)) ([], [])
 -- 5.5.7 A higher-order recursive function myMap :: (a -> b) -> [a] -> [b] that does exactly the same
 -- as map.
 
+main :: IO ()
+main = do
+  let result = myMap (+1) [1, 2, 3]
+  print result
+  
+myMap :: (a -> b) -> [a] -> [b]
+myMap f [] = []
+myMap f (x:xs) = f x : myMap f xs
+        
 
+-- 5.5.8 A higher-order recursive function myFilter :: (a -> Bool) -> [a] -> [a] that does exactly
+-- the same as filter.
+
+main :: IO ()
+main = do
+  let result = myFilter odd [1, 2, 3]
+  print result
+  
+myFilter :: (a -> Bool) -> [a] -> [a]
+myFilter f [] = []
+myFilter f (x:xs) 
+              | f x = x : myFilter f xs
+              | otherwise = myFilter f xs
